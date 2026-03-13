@@ -21,8 +21,12 @@ async def run():
         
         # Manual intervention for CAPTCHAs
         print("Pausing... solve CAPTCHA and click 'Resume' in the Inspector window.")
-        await page.pause() 
-        
+        # await page.pause() 
+        try:
+            await page.wait_for_selector("#search", state="visible", timeout=30000)
+            print("Results detected. Continuing...")
+        except:
+            print("Timed out. You might need to solve a CAPTCHA manually.")        
         await browser.close()
 
 asyncio.run(run())
