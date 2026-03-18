@@ -1,5 +1,5 @@
 import re
-from playwright.sync_api import Playwright, sync_playwright, expect
+from playwright.sync_api import Playwright, sync_playwright, expect, Page
 
 
 # def run(playwright: Playwright) -> None:
