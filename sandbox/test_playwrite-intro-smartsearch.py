@@ -4,7 +4,7 @@ from playwright.async_api import async_playwright
 async def run():
     async with async_playwright() as p:
         # slow_mo makes it human-speed to help avoid robot detection
-        browser = await p.chromium.launch(headless=False, slow_mo=1000)
+        browser = await p.chromium.launch(headless=True, slow_mo=1000)
         page = await browser.new_page()
         
         await page.goto("https://www.google.com")

@@ -4,7 +4,7 @@ from playwright.async_api import async_playwright
 async def run():
     async with async_playwright() as p:
         # Launch the browser
-        browser = await p.chromium.launch(headless=False, slow_mo=1000) # headless=False lets you see it work
+        browser = await p.chromium.launch(headless=True, slow_mo=1000) # headless=False lets you see it work
         page = await browser.new_page()
         
         # 1. Logic: Our list of things to search for

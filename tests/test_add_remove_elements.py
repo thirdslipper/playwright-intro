@@ -1,5 +1,6 @@
 import re
-from playwright.sync_api import Playwright, sync_playwright, expect, Page
+from playwright.sync_api import expect, Page #Playwright, sync_playwright, 
+from pages.internet_pages import AddRemovePage
 
 def test_add_remove_elements(page: Page) -> None:
     page.goto("https://the-internet.herokuapp.com/add_remove_elements/")
