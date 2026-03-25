@@ -1,13 +1,18 @@
 import re
+import pytest
 from playwright.sync_api import expect, Page #Playwright, sync_playwright, 
 from pages.internet_pages import AddRemovePage
 
-def test_add_remove_elements(page: Page) -> None:
-    page.goto("https://the-internet.herokuapp.com/add_remove_elements/")
-    # expect(page.get_by_text("Add Element")).first.to_be_visible()
-    for i in range(3):
-        page.get_by_role("button", name="Add Element").first.click()
-    expect(page.get_by_role("button", name="Delete")).to_have_count(3)
-    for i in range(3):
-        page.get_by_role("button", name="Delete").first.click()
-    expect(page.get_by_role("button", name="Delete")).not_to_be_visible()
+@pytest.mark.parametrize("count", [1, 2, 3])
+def test_add_remove_elements(page: Page, count: int) -> None:
+    # navigates to heroku add elements page
+    add_remove = AddRemovePage(page)
+    add_remove.open()
+
+    #add elements to page and confirms if the count matches number of elements added  
+    add_remove.add_elements(count)
+    expect(add_remove.delete_buttons).to_have_count(count)
+
+    #remove all elements then checks if count is 0
+    add_remove.remove_all_elements()
+    expect(add_remove.delete_buttons).to_have_count(0)
