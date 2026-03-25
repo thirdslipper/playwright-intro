@@ -5,15 +5,25 @@ import base64
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config):
     # If no report name is provided, generate a timestamped one automatically
-    if not config.option.htmlpath:
-        now = datetime.now().strftime("%Y%m%d_%H%M")
-        config.option.htmlpath = f"results/report_{now}.html"
-        config.option.self_contained_html = True
-    # Add custom metadata to the report header
-    if hasattr(config, '_metadata'):
-        config._metadata['Project'] = 'The Internet Automation'
-        config._metadata['Tester'] = 'Your Name'
-        config._metadata['Site'] = 'Heroku'
+    if hasattr(config.option, 'htmlpath') and not config.option.htmlpath:
+            now = datetime.now().strftime("%Y%m%d_%H%M")
+            config.option.htmlpath = f"results/report_{now}.html"
+            config.option.self_contained_html = True
+
+# This hook specifically handles the metadata for the report
+@pytest.hookimpl(optionalhook=True)
+def pytest_metadata(metadata):
+    """
+    Specific hook for pytest-html v4.0+ and pytest-metadata to 
+    populate the 'Environment' section of the report.
+    """
+    metadata['Project'] = 'The Internet Automation'
+    metadata['Tester'] = 'Your Name'
+    metadata['Site'] = 'Heroku'
+    # You can even remove default ones you don't want
+    metadata.pop("Packages", None) 
+    metadata.pop("Platform", None)
+    metadata.pop("Plugins", None)
 
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
