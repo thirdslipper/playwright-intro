@@ -12,18 +12,28 @@ def pytest_configure(config):
 
 # This hook specifically handles the metadata for the report
 @pytest.hookimpl(optionalhook=True)
-def pytest_metadata(metadata):
+def pytest_metadata(metadata, config):
     """
     Specific hook for pytest-html v4.0+ and pytest-metadata to 
     populate the 'Environment' section of the report.
     """
     metadata['Project'] = 'The Internet Automation'
-    metadata['Tester'] = 'Your Name'
+    metadata['Tester'] = 'Slipper'
     metadata['Site'] = 'Heroku'
-    # You can even remove default ones you don't want
-    metadata.pop("Packages", None) 
-    metadata.pop("Platform", None)
-    metadata.pop("Plugins", None)
+    # If Base URL is missing from metadata, try to pull it from the config
+    url = config.getoption('base_url', default='Not Defined')
+    metadata['Base URL'] = url
+        
+@pytest.hookimpl(optionalhook=True)
+def pytest_html_results_table_header(cells):
+    # Insert the header at index 2 (between 'Test' and 'Duration')# Insert 'Description' header before 'Result'
+    cells.insert(1, '<th class="sortable">Description</th>')
+
+@pytest.hookimpl(optionalhook=True)
+def pytest_html_results_table_row(report, cells):
+    # Pull the docstring we stored in the report during 'makereport'
+    description = getattr(report, "description", "")
+    cells.insert(1, f"<td>{description}</td>")
 
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
@@ -31,8 +41,12 @@ def pytest_runtest_makereport(item, call):
     pytest_html = item.config.pluginmanager.getplugin("html")
     outcome = yield
     report = outcome.get_result()
-    extra = getattr(report, "extra", [])
 
+    # Capture the docstring from the test function
+    report.description = str(item.function.__doc__) if item.function.__doc__ else ""
+
+    # Screenshot logic for failures
+    extra = getattr(report, "extra", [])
     if report.when == "call" and report.failed:
         # Get the 'page' fixture from the test
         page = item.funcargs.get("page")
