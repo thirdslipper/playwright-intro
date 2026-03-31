@@ -10,7 +10,7 @@ Steps:
 import re
 import pytest
 from playwright.sync_api import expect, Page #Playwright, sync_playwright, 
-from pages.internet_pages import AddRemovePage
+from pages.add_remove_page import AddRemovePage
 
 @pytest.mark.parametrize("count", [1, 2, 3])
 def test_add_remove_elements(page: Page, count: int) -> None:
