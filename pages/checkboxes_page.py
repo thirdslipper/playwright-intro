@@ -19,20 +19,34 @@ class CheckboxesPage(BasePage):
         self.navigate_to(PAGE_PATH)
         logger.info(f"Adding Navigating to page {PAGE_PATH}")
         self.checkbox_elements.first.wait_for()
+
+    @property
+    def checkbox_count(self) -> int:
+        """Returns the number of checkboxes found on the page."""
+        return self.checkbox_elements.count()
+
     def click_first_checkbox(self, count: int):
-        logger.info(f"Clicking first checkbox {count} times.")
+        """Clicking first checkbox {count} times"""
         for _ in range(count):
             self.checkbox_elements.first.click()
-            logger.info(f"Clicked {self.checkbox_elements.first.inner_text()} - Iteration {_+1}")
+            logger.info(f"Clicked first checkbox - Iteration {_+1}")
 
-    """untested below"""
-    def click__all_checkboxes(self, count: int):
+    def click_all_checkboxes(self, count: int):
         logger.info(f"Clicking each checkbox_elements {count} times.")
         for checkbox in self.checkbox_elements.all():
-            for i in range(count):
-                self.checkbox.click()
-                logger.debug(f"Clicked {checkbox.inner_text()} - Iteration {i+1}")
-        
+            for _ in range(count):
+                checkbox.click()
+                # logger.debug(f"Clicked {checkbox.inner_text()} - Iteration {_+1}")
+
+    def get_all_checkbox_states(self) -> list[bool]:
+        """Returns a list of booleans representing the checked state of all boxes."""
+        checkboxValues = []
+        for checkbox in self.checkbox_elements.all():
+            checkboxValues.append(checkbox.is_checked())
+            # logger.debug(f"Appending {checkbox.inner_text()} to list")
+        return checkboxValues
+
+    """untested below"""        
     def uncheck_checkboxes(self, count: int):
         logger.info(f"Unchecking all checkboxes {count} times.")
         for checkbox in self.checkbox_elements.all():
