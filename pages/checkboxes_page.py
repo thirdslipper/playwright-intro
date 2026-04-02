@@ -32,6 +32,7 @@ class CheckboxesPage(BasePage):
             logger.info(f"Clicked first checkbox - Iteration {_+1}")
 
     def click_all_checkboxes(self, count: int):
+        """Clicking all checkboxes {count} times"""
         logger.info(f"Clicking each checkbox_elements {count} times.")
         for checkbox in self.checkbox_elements.all():
             for _ in range(count):
@@ -45,21 +46,20 @@ class CheckboxesPage(BasePage):
             checkboxValues.append(checkbox.is_checked())
             # logger.debug(f"Appending {checkbox.inner_text()} to list")
         return checkboxValues
-
-    """untested below"""        
-    def uncheck_checkboxes(self, count: int):
-        logger.info(f"Unchecking all checkboxes {count} times.")
-        for checkbox in self.checkbox_elements.all():
-            for i in range(count):
-                checkbox.set_checked(False)
-                logger.debug(f"{checkbox.inner_text()} set to false - Iteration {i+1}")
     
-    def check_checkboxes(self, count: int):
-        logger.info(f"Checking all checkboxes {count} times.")
+    def uncheck_checkboxes(self):
+        """Setting all checkboxes to false/unchecked state."""
+        logger.info(f"Setting all checkboxes to false(unchecked).")
         for checkbox in self.checkbox_elements.all():
-            for i in range(count):
-                checkbox.set_checked(True)
-                logger.debug(f"{checkbox.inner_text()} set to true - Iteration {i+1}")
+            checkbox.set_checked(False)
+            # logger.debug(f"{checkbox.inner_text()} set to false - Iteration {i+1}")
+    
+    def check_checkboxes(self):
+        """Setting all checkboxes to true/checked state."""
+        logger.info(f"Setting all checkboxes to true(checked).")
+        for checkbox in self.checkbox_elements.all():
+            checkbox.set_checked(True)
+            # logger.debug(f"{checkbox.inner_text()} set to true - Iteration {i+1}")
 
 
     # def add_elements(self, count: int):

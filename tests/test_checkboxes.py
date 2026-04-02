@@ -1,5 +1,5 @@
 """
-Intent: Verify that the 'Add Element' button dynamically creates a 'Delete' button.
+Intent: Verify that the 'checkboxes' switches states when clicked.
 Steps:
 1. Navigate to the page.
 2. Click checkboxes.
@@ -39,3 +39,11 @@ def test_checkboxes(page: Page, count: int) -> None:
             assert checkboxValuesBefore[i] == checkboxValuesAfter[i]
         else:
             assert checkboxValuesBefore[i] != checkboxValuesAfter[i]
+
+    checkboxes.check_checkboxes()
+    for i in range(checkboxes.checkbox_count):
+        expect(checkboxes.checkbox_elements.nth(i)).to_be_checked()
+
+    checkboxes.uncheck_checkboxes()
+    for i in range(checkboxes.checkbox_count):
+        expect(checkboxes.checkbox_elements.nth(i)).not_to_be_checked()
