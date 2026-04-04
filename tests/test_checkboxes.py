@@ -18,6 +18,12 @@ def test_checkboxes(page: Page, count: int) -> None:
     1. Navigate to the Checkboxes page.
     2. Toggle the first checkbox 'count' times.
     3. Verify the state of the checkbox.
+    4. Toggle all checkboxes 'count' times.
+    5. Verify the state of all checkboxes.
+    6. Set all checkboxes to checked state.
+    7. Verify all checkboxes are checked.
+    8. Set all checkboxes to unchecked state.
+    9. Verify all checkboxes are unchecked.
     """
     is_even = count % 2 == 0
     checkboxes = CheckboxesPage(page)

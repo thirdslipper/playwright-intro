@@ -8,16 +8,16 @@ PAGE_PATH = "checkboxes"
 
 class CheckboxesPage(BasePage):
     def __init__(self, page: Page):
-        # This calls the BasePage's __init__ to set up self.page and self.base_url
+        """ This calls the BasePage's __init__ to set up self.page and self.base_url"""
         super().__init__(page) 
         #should grab all the checkboxes on the page and store them into var checkboxes
         #better than hardcoding grabbing checkbox 1 and checkbox 2
         self.checkbox_elements = page.get_by_role("checkbox")
 
     def open(self):
-        # Uses the navigate_to method from BasePage
+        """Uses the navigate_to method from BasePage"""
         self.navigate_to(PAGE_PATH)
-        logger.info(f"Adding Navigating to page {PAGE_PATH}")
+        logger.info(f"Navigating to page {PAGE_PATH}")
         self.checkbox_elements.first.wait_for()
 
     @property
