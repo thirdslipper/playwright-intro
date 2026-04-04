@@ -34,44 +34,29 @@ class CheckboxesPage(BasePage):
     def click_all_checkboxes(self, count: int):
         """Clicking all checkboxes {count} times"""
         logger.info(f"Clicking each checkbox_elements {count} times.")
-        for checkbox in self.checkbox_elements.all():
+        for i, checkbox in enumerate(self.checkbox_elements.all()):
             for _ in range(count):
                 checkbox.click()
-                # logger.debug(f"Clicked {checkbox.inner_text()} - Iteration {_+1}")
+                logger.debug(f"Clicked checkbox{i+1} - Iteration {_+1}")
 
     def get_all_checkbox_states(self) -> list[bool]:
         """Returns a list of booleans representing the checked state of all boxes."""
         checkboxValues = []
-        for checkbox in self.checkbox_elements.all():
+        for i, checkbox in enumerate(self.checkbox_elements.all()):
             checkboxValues.append(checkbox.is_checked())
-            # logger.debug(f"Appending {checkbox.inner_text()} to list")
+            logger.debug(f"Appending checkbox{i+1} to list")
         return checkboxValues
     
     def uncheck_checkboxes(self):
         """Setting all checkboxes to false/unchecked state."""
         logger.info(f"Setting all checkboxes to false(unchecked).")
-        for checkbox in self.checkbox_elements.all():
+        for i, checkbox in enumerate(self.checkbox_elements.all()):
             checkbox.set_checked(False)
-            # logger.debug(f"{checkbox.inner_text()} set to false - Iteration {i+1}")
+            logger.debug(f"checkbox {i+1} set to false")
     
     def check_checkboxes(self):
         """Setting all checkboxes to true/checked state."""
         logger.info(f"Setting all checkboxes to true(checked).")
-        for checkbox in self.checkbox_elements.all():
+        for i, checkbox in enumerate(self.checkbox_elements.all()):
             checkbox.set_checked(True)
-            # logger.debug(f"{checkbox.inner_text()} set to true - Iteration {i+1}")
-
-
-    # def add_elements(self, count: int):
-    #     logger.info(f"Adding {count} elements to the page.")
-    #     for _ in range(count):
-    #         self.add_button.click()
-    #         logger.debug(f"Clicked 'Add' - Iteration {_+1}")
-
-    # def remove_all_elements(self):
-    #     del_Count = self.delete_buttons.count()
-    #     logger.info(f"Deleting {del_Count} elements to the page.")
-    #     # Clicks the first "Delete" button until none are left
-    #     for _ in range(del_Count):
-    #         self.delete_buttons.first.click()
-    #         logger.debug(f"Clicked 'Delete' - Iteration {_+1}")
+            logger.debug(f"checkbox {i+1} set to true")
