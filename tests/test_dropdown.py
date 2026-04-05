@@ -12,7 +12,7 @@ from playwright.sync_api import expect, Page #Playwright, sync_playwright,
 from pages.dropdown_page import DropdownPage
 
 @pytest.mark.parametrize("count", [1])#, 2, 3])
-def test_checkboxes(page: Page, count: int) -> None:
+def test_dropboxes(page: Page, count: int) -> None:
     """
     Intent: Verify the interactivity of dropdown elements.
     Steps:
@@ -23,3 +23,4 @@ def test_checkboxes(page: Page, count: int) -> None:
     dropdown = DropdownPage(page)
     dropdown.open()
     assert dropdown.get_header_text() == "Dropdown List"
+    assert dropdown.starting_option() == "Please select an option"

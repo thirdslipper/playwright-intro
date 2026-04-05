@@ -23,8 +23,25 @@ class DropdownPage(BasePage):
         # wait for the <select> element to be present, then read its options
         self.dropdown_elements.first.wait_for()
         option_locator = self.dropdown_elements.locator("option")
+
         options = []
         for i in range(option_locator.count()):
             options.append(option_locator.nth(i).inner_text())
-        logger.info(f"Dropdown options: {options}")
+        logger.info(f"Open(): Dropdown options: {options}")
         print(options)
+    
+    """tests to do: 
+    1. start on "Please select an option", 
+    2. cannot select "please select an option", 
+    3.switch between option 1 and 2,  """
+    def starting_option(self) -> str:
+        """Returns the currently selected option's text."""
+        selected_option = self.dropdown_elements.first.locator("option:checked").inner_text()
+        logger.info(f"Current selected option: {selected_option}")
+        return selected_option
+    
+    def select_option(self, option_text: str):
+        """Selects an option from the dropdown based on visible text."""
+        logger.info(f"Selecting option: {option_text}")
+        self.dropdown_elements.first.select_option(label=option_text)
+        logger.info(f"Option '{option_text}' selected.")
