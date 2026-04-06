@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title id="head-title">report_20260405_1718.html</title>
+      <style type="text/css">body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  /* do not increase min-width as some may use split screens */
+  min-width: 800px;
+  color: #999;
+}
+
+h1 {
+  font-size: 24px;
+  color: black;
+}
+
+h2 {
+  font-size: 16px;
+  color: black;
+}
+
+p {
+  color: black;
+}
+
+a {
+  color: #999;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+/******************************
+ * SUMMARY INFORMATION
+ ******************************/
+#environment td {
+  padding: 5px;
+  border: 1px solid #e6e6e6;
+  vertical-align: top;
+}
+#environment tr:nth-child(odd) {
+  background-color: #f6f6f6;
+}
+#environment ul {
+  margin: 0;
+  padding: 0 20px;
+}
+
+/******************************
+ * TEST RESULT COLORS
+ ******************************/
+span.passed,
+.passed .col-result {
+  color: green;
+}
+
+span.skipped,
+span.xfailed,
+span.rerun,
+.skipped .col-result,
+.xfailed .col-result,
+.rerun .col-result {
+  color: orange;
+}
+
+span.error,
+span.failed,
+span.xpassed,
+.error .col-result,
+.failed .col-result,
+.xpassed .col-result {
+  color: red;
+}
+
+.col-links__extra {
+  margin-right: 3px;
+}
+
+/******************************
+ * RESULTS TABLE
+ *
+ * 1. Table Layout
+ * 2. Extra
+ * 3. Sorting items
+ *
+ ******************************/
+/*------------------
+ * 1. Table Layout
+ *------------------*/
+#results-table {
+  border: 1px solid #e6e6e6;
+  color: #999;
+  font-size: 12px;
+  width: 100%;
+}
+#results-table th,
+#results-table td {
+  padding: 5px;
+  border: 1px solid #e6e6e6;
+  text-align: left;
+}
+#results-table th {
+  font-weight: bold;
+}
+
+/*------------------
+ * 2. Extra
+ *------------------*/
+.logwrapper {
+  max-height: 230px;
+  overflow-y: scroll;
+  background-color: #e6e6e6;
+}
+.logwrapper.expanded {
+  max-height: none;
+}
+.logwrapper.expanded .logexpander:after {
+  content: "collapse [-]";
+}
+.logwrapper .logexpander {
+  z-index: 1;
+  position: sticky;
+  top: 10px;
+  width: max-content;
+  border: 1px solid;
+  border-radius: 3px;
+  padding: 5px 7px;
+  margin: 10px 0 10px calc(100% - 80px);
+  cursor: pointer;
+  background-color: #e6e6e6;
+}
+.logwrapper .logexpander:after {
+  content: "expand [+]";
+}
+.logwrapper .logexpander:hover {
+  color: #000;
+  border-color: #000;
+}
+.logwrapper .log {
+  min-height: 40px;
+  position: relative;
+  top: -50px;
+  height: calc(100% + 50px);
+  border: 1px solid #e6e6e6;
+  color: black;
+  display: block;
+  font-family: "Courier New", Courier, monospace;
+  padding: 5px;
+  padding-right: 80px;
+  white-space: pre-wrap;
+}
+
+div.media {
+  border: 1px solid #e6e6e6;
+  float: right;
+  height: 240px;
+  margin: 0 5px;
+  overflow: hidden;
+  width: 320px;
+}
+
+.media-container {
+  display: grid;
+  grid-template-columns: 25px auto 25px;
+  align-items: center;
+  flex: 1 1;
+  overflow: hidden;
+  height: 200px;
+}
+
+.media-container--fullscreen {
+  grid-template-columns: 0px auto 0px;
+}
+
+.media-container__nav--right,
+.media-container__nav--left {
+  text-align: center;
+  cursor: pointer;
+}
+
+.media-container__viewport {
+  cursor: pointer;
+  text-align: center;
+  height: inherit;
+}
+.media-container__viewport img,
+.media-container__viewport video {
+  object-fit: cover;
+  width: 100%;
+  max-height: 100%;
+}
+
+.media__name,
+.media__counter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex: 0 0 25px;
+  align-items: center;
+}
+
+.collapsible td:not(.col-links) {
+  cursor: pointer;
+}
+.collapsible td:not(.col-links):hover::after {
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+}
+
+.col-result {
+  width: 130px;
+}
+.col-result:hover::after {
+  content: " (hide details)";
+}
+
+.col-result.collapsed:hover::after {
+  content: " (show details)";
+}
+
+#environment-header h2:hover::after {
+  content: " (hide details)";
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+#environment-header.collapsed h2:hover::after {
+  content: " (show details)";
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/*------------------
+ * 3. Sorting items
+ *------------------*/
+.sortable {
+  cursor: pointer;
+}
+.sortable.desc:after {
+  content: " ";
+  position: relative;
+  left: 5px;
+  bottom: -12.5px;
+  border: 10px solid #4caf50;
+  border-bottom: 0;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+.sortable.asc:after {
+  content: " ";
+  position: relative;
+  left: 5px;
+  bottom: 12.5px;
+  border: 10px solid #4caf50;
+  border-top: 0;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+.hidden, .summary__reload__button.hidden {
+  display: none;
+}
+
+.summary__data {
+  flex: 0 0 550px;
+}
+.summary__reload {
+  flex: 1 1;
+  display: flex;
+  justify-content: center;
+}
+.summary__reload__button {
+  flex: 0 0 300px;
+  display: flex;
+  color: white;
+  font-weight: bold;
+  background-color: #4caf50;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.summary__reload__button:hover {
+  background-color: #46a049;
+}
+.summary__spacer {
+  flex: 0 0 550px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.filters,
+.collapse {
+  display: flex;
+  align-items: center;
+}
+.filters button,
+.collapse button {
+  color: #999;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.filters button:hover,
+.collapse button:hover {
+  color: #ccc;
+}
+
+.filter__label {
+  margin-right: 10px;
+}
+
+      </style>
+    
+  </head>
+  <body>
+    <h1 id="title">report_20260405_1718.html</h1>
+    <p>Report generated on 05-Apr-2026 at 17:19:14 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a>
+        v4.2.0</p>
+    <div id="environment-header">
+      <h2>Environment</h2>
+    </div>
+    <table id="environment"></table>
+    <!-- TEMPLATES -->
+      <template id="template_environment_row">
+      <tr>
+        <td></td>
+        <td></td>
+      </tr>
+    </template>
+    <template id="template_results-table__body--empty">
+      <tbody class="results-table-row">
+        <tr id="not-found-message">
+          <td colspan="5">No results found. Check the filters.</td>
+        </tr>
+      </tbody>
+    </template>
+    <template id="template_results-table__tbody">
+      <tbody class="results-table-row">
+        <tr class="collapsible">
+        </tr>
+        <tr class="extras-row">
+          <td class="extra" colspan="5">
+            <div class="extraHTML"></div>
+            <div class="media">
+              <div class="media-container">
+                  <div class="media-container__nav--left">&lt;</div>
+                  <div class="media-container__viewport">
+                    <img src="" />
+                    <video controls>
+                      <source src="" type="video/mp4">
+                    </video>
+                  </div>
+                  <div class="media-container__nav--right">&gt;</div>
+                </div>
+                <div class="media__name"></div>
+                <div class="media__counter"></div>
+            </div>
+            <div class="logwrapper">
+              <div class="logexpander"></div>
+              <div class="log"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </template>
+    <!-- END TEMPLATES -->
+    <div class="summary">
+      <div class="summary__data">
+        <h2>Summary</h2>
+        <div class="additional-summary prefix">
+        </div>
+        <p class="run-count">1 test took 00:00:36.</p>
+        <p class="filter">(Un)check the boxes to filter the results.</p>
+        <div class="summary__reload">
+          <div class="summary__reload__button hidden" onclick="location.reload()">
+            <div>There are still tests running. <br />Reload this page to get the latest results!</div>
+          </div>
+        </div>
+        <div class="summary__spacer"></div>
+        <div class="controls">
+          <div class="filters">
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="failed" >
+            <span class="failed">1 Failed,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="passed" disabled>
+            <span class="passed">0 Passed,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="skipped" disabled>
+            <span class="skipped">0 Skipped,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="xfailed" disabled>
+            <span class="xfailed">0 Expected failures,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="xpassed" disabled>
+            <span class="xpassed">0 Unexpected passes,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="error" disabled>
+            <span class="error">0 Errors,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="rerun" disabled>
+            <span class="rerun">0 Reruns</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="retried" disabled>
+            <span class="retried">0 Retried,</span>
+          </div>
+          <div class="collapse">
+            <button id="show_all_details">Show all details</button>&nbsp;/&nbsp;<button id="hide_all_details">Hide all details</button>
+          </div>
+        </div>
+      </div>
+      <div class="additional-summary summary">
+      </div>
+      <div class="additional-summary postfix">
+      </div>
+    </div>
+    <table id="results-table">
+      <thead id="results-table-head">
+        <tr>
+          <th class="sortable" data-column-type="result">Result</th>
+          <th class="sortable">Description</th>
+          <th class="sortable" data-column-type="testId">Test</th>
+          <th class="sortable" data-column-type="duration">Duration</th>
+          <th>Links</th>
+        </tr>
+      </thead>
+    </table>
+  <footer>
+    <div id="data-container" data-jsonblob="{&#34;environment&#34;: {&#34;Python&#34;: &#34;3.14.3&#34;, &#34;Platform&#34;: &#34;Windows-10-10.0.19045-SP0&#34;, &#34;Packages&#34;: {&#34;pytest&#34;: &#34;9.0.2&#34;, &#34;pluggy&#34;: &#34;1.6.0&#34;}, &#34;Plugins&#34;: {&#34;base-url&#34;: &#34;2.1.0&#34;, &#34;html&#34;: &#34;4.2.0&#34;, &#34;metadata&#34;: &#34;3.1.1&#34;, &#34;playwright&#34;: &#34;0.7.2&#34;}, &#34;Project&#34;: &#34;The Internet Automation&#34;, &#34;Tester&#34;: &#34;Slipper&#34;, &#34;Site&#34;: &#34;Heroku&#34;, &#34;Base URL&#34;: &#34;https://the-internet.herokuapp.com&#34;}, &#34;tests&#34;: {&#34;tests/test_dropdown.py::test_dropboxes[chromium-1]&#34;: [{&#34;extras&#34;: [{&#34;name&#34;: null, &#34;format_type&#34;: &#34;html&#34;, &#34;content&#34;: &#34;&lt;div&gt;&lt;img src=\&#34;data:image/png;base64,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BDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAANEAACEQAADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAEQQADAAAQBAEMAABAEAQwAAAAQRDAAAAABEEAAwAAEAQBDAAAQBAEMAAAAEEQwAAAAARBAAMAABAEAQwAAEAQBDAAAABBEMAAAAAE4f8HAAD//7gCGg8AAAAGSURBVAMAtHM/L4HKc88AAAAASUVORK5CYII=\&#34; style=\&#34;width:600px;height:300px;\&#34; onclick=\&#34;window.open(this.src)\&#34; align=\&#34;right\&#34;/&gt;&lt;/div&gt;&#34;, &#34;mime_type&#34;: null, &#34;extension&#34;: null}], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;tests/test_dropdown.py::test_dropboxes[chromium-1]&#34;, &#34;duration&#34;: &#34;00:00:35&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td&gt;\nIntent: Verify the interactivity of dropdown elements.\nSteps:\n1. Navigate to the Checkboxes page.\n2. Toggle the first checkbox &#39;count&#39; times.\n3. Verify the state of the checkbox.\n&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_dropdown.py::test_dropboxes[chromium-1]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:35&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;page = &amp;lt;Page url=&amp;#x27;https://the-internet.herokuapp.com/dropdown&amp;#x27;&amp;gt;, count = 1\n\n    @pytest.mark.parametrize(&amp;quot;count&amp;quot;, [1])#, 2, 3])\n    def test_dropboxes(page: Page, count: int) -&amp;gt; None:\n        &amp;quot;&amp;quot;&amp;quot;\n        Intent: Verify the interactivity of dropdown elements.\n        Steps:\n        1. Navigate to the Checkboxes page.\n        2. Toggle the first checkbox &amp;#x27;count&amp;#x27; times.\n        3. Verify the state of the checkbox.\n        &amp;quot;&amp;quot;&amp;quot;\n        dropdown = DropdownPage(page)\n        dropdown.open()\n        #get list of options from dropdown and store them into var options\n        &amp;quot;&amp;quot;&amp;quot;[Please select an option, Option 1, Option 2]&amp;quot;&amp;quot;&amp;quot;\n        options = dropdown.get_options()\n        dropdown_bar = dropdown.dropdown_elements.first.locator(&amp;quot;option:checked&amp;quot;)\n    \n        assert dropdown.get_header_text() == &amp;quot;Dropdown List&amp;quot;\n        assert dropdown.starting_option() == options[0]\n    \n        for i in range(count):\n            random_option = random.choice(options[1:])\n            dropdown.select_option(random_option)\n            expect(dropdown_bar).to_have_text(random_option)\n    \n&amp;gt;       dropdown.select_option(options[0])\n\ntests\\test_dropdown.py:39: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\npages\\dropdown_page.py:48: in select_option\n    self.dropdown_elements.first.select_option(label=option_text)\n.venv\\Lib\\site-packages\\playwright\\sync_api\\_generated.py:17630: in select_option\n    self._sync(\n.venv\\Lib\\site-packages\\playwright\\_impl\\_locator.py:597: in select_option\n    return await self._frame.select_option(\n.venv\\Lib\\site-packages\\playwright\\_impl\\_frame.py:781: in select_option\n    return await self._channel.send(&amp;quot;selectOption&amp;quot;, self._timeout, params)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n.venv\\Lib\\site-packages\\playwright\\_impl\\_connection.py:69: in send\n    return await self._connection.wrap_api_call(\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nself = &amp;lt;playwright._impl._connection.Connection object at 0x000001D0287CF8C0&amp;gt;\ncb = &amp;lt;function Channel.send.&amp;lt;locals&amp;gt;.&amp;lt;lambda&amp;gt; at 0x000001D028A86A30&amp;gt;, is_internal = False, title = None\n\n    async def wrap_api_call(\n        self, cb: Callable[[], Any], is_internal: bool = False, title: str = None\n    ) -&amp;gt; Any:\n        if self._api_zone.get():\n            return await cb()\n        task = asyncio.current_task(self._loop)\n        st: List[inspect.FrameInfo] = getattr(\n            task, &amp;quot;__pw_stack__&amp;quot;, None\n        ) or inspect.stack(0)\n    \n        parsed_st = _extract_stack_trace_information_from_stack(st, is_internal, title)\n        self._api_zone.set(parsed_st)\n        try:\n            return await cb()\n        except Exception as error:\n&amp;gt;           raise rewrite_error(error, f&amp;quot;{parsed_st[&amp;#x27;apiName&amp;#x27;]}: {error}&amp;quot;) from None\nE           playwright._impl._errors.TimeoutError: Locator.select_option: Timeout 30000ms exceeded.\nE           Call log:\nE             - waiting for get_by_role(&amp;quot;combobox&amp;quot;).first\nE               - locator resolved to &amp;lt;select id=&amp;quot;dropdown&amp;quot;&amp;gt;\u2026&amp;lt;/select&amp;gt;\nE             - attempting select option action\nE               2 \u00d7 waiting for element to be visible and enabled\nE                 - option being selected is not enabled\nE               - retrying select option action\nE               - waiting 20ms\nE               2 \u00d7 waiting for element to be visible and enabled\nE                 - option being selected is not enabled\nE               - retrying select option action\nE                 - waiting 100ms\nE               58 \u00d7 waiting for element to be visible and enabled\nE                  - option being selected is not enabled\nE                - retrying select option action\nE                  - waiting 500ms\n\n.venv\\Lib\\site-packages\\playwright\\_impl\\_connection.py:559: TimeoutError\n\n------------------------------ Captured log setup ------------------------------\nDEBUG    asyncio:proactor_events.py:633 Using proactor: IocpProactor\n\n----------------------------- Captured stdout call -----------------------------\n[&amp;#x27;Please select an option&amp;#x27;, &amp;#x27;Option 1&amp;#x27;, &amp;#x27;Option 2&amp;#x27;]\n\n------------------------------ Captured log call -------------------------------\nINFO     pages.dropdown_page:dropdown_page.py:15 DropdownPage initialized with dropdown elements.\nINFO     pages.dropdown_page:dropdown_page.py:22 Navigating to page dropdown\nINFO     pages.dropdown_page:dropdown_page.py:31 Open(): Dropdown options: [&amp;#x27;Please select an option&amp;#x27;, &amp;#x27;Option 1&amp;#x27;, &amp;#x27;Option 2&amp;#x27;]\nINFO     pages.dropdown_page:dropdown_page.py:42 Current selected option: Please select an option\nINFO     pages.dropdown_page:dropdown_page.py:47 Selecting option: Option 2\nINFO     pages.dropdown_page:dropdown_page.py:49 Option &amp;#x27;Option 2&amp;#x27; selected.\nINFO     pages.dropdown_page:dropdown_page.py:47 Selecting option: Please select an option\n\n&#34;}]}, &#34;renderCollapsed&#34;: [&#34;passed&#34;], &#34;initialSort&#34;: &#34;result&#34;, &#34;title&#34;: &#34;report_20260405_1718.html&#34;}"></div>
+    <script>
+      (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+const { getCollapsedCategory, setCollapsedIds } = require('./storage.js')
+
+class DataManager {
+    setManager(data) {
+        const collapsedCategories = [...getCollapsedCategory(data.renderCollapsed)]
+        const collapsedIds = []
+        const tests = Object.values(data.tests).flat().map((test, index) => {
+            const collapsed = collapsedCategories.includes(test.result.toLowerCase())
+            const id = `test_${index}`
+            if (collapsed) {
+                collapsedIds.push(id)
+            }
+            return {
+                ...test,
+                id,
+                collapsed,
+            }
+        })
+        const dataBlob = { ...data, tests }
+        this.data = { ...dataBlob }
+        this.renderData = { ...dataBlob }
+        setCollapsedIds(collapsedIds)
+    }
+
+    get allData() {
+        return { ...this.data }
+    }
+
+    resetRender() {
+        this.renderData = { ...this.data }
+    }
+
+    setRender(data) {
+        this.renderData.tests = [...data]
+    }
+
+    toggleCollapsedItem(id) {
+        this.renderData.tests = this.renderData.tests.map((test) =>
+            test.id === id ? { ...test, collapsed: !test.collapsed } : test,
+        )
+    }
+
+    set allCollapsed(collapsed) {
+        this.renderData = { ...this.renderData, tests: [...this.renderData.tests.map((test) => (
+            { ...test, collapsed }
+        ))] }
+    }
+
+    get testSubset() {
+        return [...this.renderData.tests]
+    }
+
+    get environment() {
+        return this.renderData.environment
+    }
+
+    get initialSort() {
+        return this.data.initialSort
+    }
+}
+
+module.exports = {
+    manager: new DataManager(),
+}
+
+},{"./storage.js":8}],2:[function(require,module,exports){
+const mediaViewer = require('./mediaviewer.js')
+const templateEnvRow = document.getElementById('template_environment_row')
+const templateResult = document.getElementById('template_results-table__tbody')
+
+function htmlToElements(html) {
+    const temp = document.createElement('template')
+    temp.innerHTML = html
+    return temp.content.childNodes
+}
+
+const find = (selector, elem) => {
+    if (!elem) {
+        elem = document
+    }
+    return elem.querySelector(selector)
+}
+
+const findAll = (selector, elem) => {
+    if (!elem) {
+        elem = document
+    }
+    return [...elem.querySelectorAll(selector)]
+}
+
+const dom = {
+    getStaticRow: (key, value) => {
+        const envRow = templateEnvRow.content.cloneNode(true)
+        const isObj = typeof value === 'object' && value !== null
+        const values = isObj ? Object.keys(value).map((k) => `${k}: ${value[k]}`) : null
+
+        const valuesElement = htmlToElements(
+            values ? `<ul>${values.map((val) => `<li>${val}</li>`).join('')}<ul>` : `<div>${value}</div>`)[0]
+        const td = findAll('td', envRow)
+        td[0].textContent = key
+        td[1].appendChild(valuesElement)
+
+        return envRow
+    },
+    getResultTBody: ({ testId, id, log, extras, resultsTableRow, tableHtml, result, collapsed }) => {
+        const resultBody = templateResult.content.cloneNode(true)
+        resultBody.querySelector('tbody').classList.add(result.toLowerCase())
+        resultBody.querySelector('tbody').id = testId
+        resultBody.querySelector('.collapsible').dataset.id = id
+
+        resultsTableRow.forEach((html) => {
+            const t = document.createElement('template')
+            t.innerHTML = html
+            resultBody.querySelector('.collapsible').appendChild(t.content)
+        })
+
+        if (log) {
+            // Wrap lines starting with "E" with span.error to color those lines red
+            const wrappedLog = log.replace(/^E.*$/gm, (match) => `<span class="error">${match}</span>`)
+            resultBody.querySelector('.log').innerHTML = wrappedLog
+        } else {
+            resultBody.querySelector('.log').remove()
+        }
+
+        if (collapsed) {
+            resultBody.querySelector('.collapsible > .col-result')?.classList.add('collapsed')
+            resultBody.querySelector('.extras-row').classList.add('hidden')
+        } else {
+            resultBody.querySelector('.collapsible > .col-result')?.classList.remove('collapsed')
+        }
+
+        const media = []
+        extras?.forEach(({ name, format_type, content }) => {
+            if (['image', 'video'].includes(format_type)) {
+                media.push({ path: content, name, format_type })
+            }
+
+            if (format_type === 'html') {
+                resultBody.querySelector('.extraHTML').insertAdjacentHTML('beforeend', `<div>${content}</div>`)
+            }
+        })
+        mediaViewer.setup(resultBody, media)
+
+        // Add custom html from the pytest_html_results_table_html hook
+        tableHtml?.forEach((item) => {
+            resultBody.querySelector('td[class="extra"]').insertAdjacentHTML('beforeend', item)
+        })
+
+        return resultBody
+    },
+}
+
+module.exports = {
+    dom,
+    htmlToElements,
+    find,
+    findAll,
+}
+
+},{"./mediaviewer.js":6}],3:[function(require,module,exports){
+const { manager } = require('./datamanager.js')
+const { doSort } = require('./sort.js')
+const storageModule = require('./storage.js')
+
+const getFilteredSubSet = (filter) =>
+    manager.allData.tests.filter(({ result }) => filter.includes(result.toLowerCase()))
+
+const doInitFilter = () => {
+    const currentFilter = storageModule.getVisible()
+    const filteredSubset = getFilteredSubSet(currentFilter)
+    manager.setRender(filteredSubset)
+}
+
+const doFilter = (type, show) => {
+    if (show) {
+        storageModule.showCategory(type)
+    } else {
+        storageModule.hideCategory(type)
+    }
+
+    const currentFilter = storageModule.getVisible()
+    const filteredSubset = getFilteredSubSet(currentFilter)
+    manager.setRender(filteredSubset)
+
+    const sortColumn = storageModule.getSort()
+    doSort(sortColumn, true)
+}
+
+module.exports = {
+    doFilter,
+    doInitFilter,
+}
+
+},{"./datamanager.js":1,"./sort.js":7,"./storage.js":8}],4:[function(require,module,exports){
+const { redraw, bindEvents, renderStatic } = require('./main.js')
+const { doInitFilter } = require('./filter.js')
+const { doInitSort } = require('./sort.js')
+const { manager } = require('./datamanager.js')
+const data = JSON.parse(document.getElementById('data-container').dataset.jsonblob)
+
+function init() {
+    manager.setManager(data)
+    doInitFilter()
+    doInitSort()
+    renderStatic()
+    redraw()
+    bindEvents()
+}
+
+init()
+
+},{"./datamanager.js":1,"./filter.js":3,"./main.js":5,"./sort.js":7}],5:[function(require,module,exports){
+const { dom, find, findAll } = require('./dom.js')
+const { manager } = require('./datamanager.js')
+const { doSort } = require('./sort.js')
+const { doFilter } = require('./filter.js')
+const {
+    getVisible,
+    getCollapsedIds,
+    setCollapsedIds,
+    getSort,
+    getSortDirection,
+    possibleFilters,
+} = require('./storage.js')
+
+const removeChildren = (node) => {
+    while (node.firstChild) {
+        node.removeChild(node.firstChild)
+    }
+}
+
+const renderStatic = () => {
+    const renderEnvironmentTable = () => {
+        const environment = manager.environment
+        const rows = Object.keys(environment).map((key) => dom.getStaticRow(key, environment[key]))
+        const table = document.getElementById('environment')
+        removeChildren(table)
+        rows.forEach((row) => table.appendChild(row))
+    }
+    renderEnvironmentTable()
+}
+
+const addItemToggleListener = (elem) => {
+    elem.addEventListener('click', ({ target }) => {
+        const id = target.parentElement.dataset.id
+        manager.toggleCollapsedItem(id)
+
+        const collapsedIds = getCollapsedIds()
+        if (collapsedIds.includes(id)) {
+            const updated = collapsedIds.filter((item) => item !== id)
+            setCollapsedIds(updated)
+        } else {
+            collapsedIds.push(id)
+            setCollapsedIds(collapsedIds)
+        }
+        redraw()
+    })
+}
+
+const renderContent = (tests) => {
+    const sortAttr = getSort(manager.initialSort)
+    const sortAsc = JSON.parse(getSortDirection())
+    const rows = tests.map(dom.getResultTBody)
+    const table = document.getElementById('results-table')
+    const tableHeader = document.getElementById('results-table-head')
+
+    const newTable = document.createElement('table')
+    newTable.id = 'results-table'
+
+    // remove all sorting classes and set the relevant
+    findAll('.sortable', tableHeader).forEach((elem) => elem.classList.remove('asc', 'desc'))
+    tableHeader.querySelector(`.sortable[data-column-type="${sortAttr}"]`)?.classList.add(sortAsc ? 'desc' : 'asc')
+    newTable.appendChild(tableHeader)
+
+    if (!rows.length) {
+        const emptyTable = document.getElementById('template_results-table__body--empty').content.cloneNode(true)
+        newTable.appendChild(emptyTable)
+    } else {
+        rows.forEach((row) => {
+            if (!!row) {
+                findAll('.collapsible td:not(.col-links', row).forEach(addItemToggleListener)
+                find('.logexpander', row).addEventListener('click',
+                    (evt) => evt.target.parentNode.classList.toggle('expanded'),
+                )
+                newTable.appendChild(row)
+            }
+        })
+    }
+
+    table.replaceWith(newTable)
+}
+
+const renderDerived = () => {
+    const currentFilter = getVisible()
+    possibleFilters.forEach((result) => {
+        const input = document.querySelector(`input[data-test-result="${result}"]`)
+        input.checked = currentFilter.includes(result)
+    })
+}
+
+const bindEvents = () => {
+    const filterColumn = (evt) => {
+        const { target: element } = evt
+        const { testResult } = element.dataset
+
+        doFilter(testResult, element.checked)
+        const collapsedIds = getCollapsedIds()
+        const updated = manager.renderData.tests.map((test) => {
+            return {
+                ...test,
+                collapsed: collapsedIds.includes(test.id),
+            }
+        })
+        manager.setRender(updated)
+        redraw()
+    }
+
+    const header = document.getElementById('environment-header')
+    header.addEventListener('click', () => {
+        const table = document.getElementById('environment')
+        table.classList.toggle('hidden')
+        header.classList.toggle('collapsed')
+    })
+
+    findAll('input[name="filter_checkbox"]').forEach((elem) => {
+        elem.addEventListener('click', filterColumn)
+    })
+
+    findAll('.sortable').forEach((elem) => {
+        elem.addEventListener('click', (evt) => {
+            const { target: element } = evt
+            const { columnType } = element.dataset
+            doSort(columnType)
+            redraw()
+        })
+    })
+
+    document.getElementById('show_all_details').addEventListener('click', () => {
+        manager.allCollapsed = false
+        setCollapsedIds([])
+        redraw()
+    })
+    document.getElementById('hide_all_details').addEventListener('click', () => {
+        manager.allCollapsed = true
+        const allIds = manager.renderData.tests.map((test) => test.id)
+        setCollapsedIds(allIds)
+        redraw()
+    })
+}
+
+const redraw = () => {
+    const { testSubset } = manager
+
+    renderContent(testSubset)
+    renderDerived()
+}
+
+module.exports = {
+    redraw,
+    bindEvents,
+    renderStatic,
+}
+
+},{"./datamanager.js":1,"./dom.js":2,"./filter.js":3,"./sort.js":7,"./storage.js":8}],6:[function(require,module,exports){
+class MediaViewer {
+    constructor(assets) {
+        this.assets = assets
+        this.index = 0
+    }
+
+    nextActive() {
+        this.index = this.index === this.assets.length - 1 ? 0 : this.index + 1
+        return [this.activeFile, this.index]
+    }
+
+    prevActive() {
+        this.index = this.index === 0 ? this.assets.length - 1 : this.index -1
+        return [this.activeFile, this.index]
+    }
+
+    get currentIndex() {
+        return this.index
+    }
+
+    get activeFile() {
+        return this.assets[this.index]
+    }
+}
+
+
+const setup = (resultBody, assets) => {
+    if (!assets.length) {
+        resultBody.querySelector('.media').classList.add('hidden')
+        return
+    }
+
+    const mediaViewer = new MediaViewer(assets)
+    const container = resultBody.querySelector('.media-container')
+    const leftArrow = resultBody.querySelector('.media-container__nav--left')
+    const rightArrow = resultBody.querySelector('.media-container__nav--right')
+    const mediaName = resultBody.querySelector('.media__name')
+    const counter = resultBody.querySelector('.media__counter')
+    const imageEl = resultBody.querySelector('img')
+    const sourceEl = resultBody.querySelector('source')
+    const videoEl = resultBody.querySelector('video')
+
+    const setImg = (media, index) => {
+        if (media?.format_type === 'image') {
+            imageEl.src = media.path
+
+            imageEl.classList.remove('hidden')
+            videoEl.classList.add('hidden')
+        } else if (media?.format_type === 'video') {
+            sourceEl.src = media.path
+
+            videoEl.classList.remove('hidden')
+            imageEl.classList.add('hidden')
+        }
+
+        mediaName.innerText = media?.name
+        counter.innerText = `${index + 1} / ${assets.length}`
+    }
+    setImg(mediaViewer.activeFile, mediaViewer.currentIndex)
+
+    const moveLeft = () => {
+        const [media, index] = mediaViewer.prevActive()
+        setImg(media, index)
+    }
+    const doRight = () => {
+        const [media, index] = mediaViewer.nextActive()
+        setImg(media, index)
+    }
+    const openImg = () => {
+        window.open(mediaViewer.activeFile.path, '_blank')
+    }
+    if (assets.length === 1) {
+        container.classList.add('media-container--fullscreen')
+    } else {
+        leftArrow.addEventListener('click', moveLeft)
+        rightArrow.addEventListener('click', doRight)
+    }
+    imageEl.addEventListener('click', openImg)
+}
+
+module.exports = {
+    setup,
+}
+
+},{}],7:[function(require,module,exports){
+const { manager } = require('./datamanager.js')
+const storageModule = require('./storage.js')
+
+const genericSort = (list, key, ascending, customOrder) => {
+    let sorted
+    if (customOrder) {
+        sorted = list.sort((a, b) => {
+            const aValue = a.result.toLowerCase()
+            const bValue = b.result.toLowerCase()
+
+            const aIndex = customOrder.findIndex((item) => item.toLowerCase() === aValue)
+            const bIndex = customOrder.findIndex((item) => item.toLowerCase() === bValue)
+
+            // Compare the indices to determine the sort order
+            return aIndex - bIndex
+        })
+    } else {
+        sorted = list.sort((a, b) => a[key] === b[key] ? 0 : a[key] > b[key] ? 1 : -1)
+    }
+
+    if (ascending) {
+        sorted.reverse()
+    }
+    return sorted
+}
+
+const durationSort = (list, ascending) => {
+    const parseDuration = (duration) => {
+        if (duration.includes(':')) {
+            // If it's in the format "HH:mm:ss"
+            const [hours, minutes, seconds] = duration.split(':').map(Number)
+            return (hours * 3600 + minutes * 60 + seconds) * 1000
+        } else {
+            // If it's in the format "nnn ms"
+            return parseInt(duration)
+        }
+    }
+    const sorted = list.sort((a, b) => parseDuration(a['duration']) - parseDuration(b['duration']))
+    if (ascending) {
+        sorted.reverse()
+    }
+    return sorted
+}
+
+const doInitSort = () => {
+    const type = storageModule.getSort(manager.initialSort)
+    const ascending = storageModule.getSortDirection()
+    const list = manager.testSubset
+    const initialOrder = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed', 'Skipped', 'Passed']
+
+    storageModule.setSort(type)
+    storageModule.setSortDirection(ascending)
+
+    if (type?.toLowerCase() === 'original') {
+        manager.setRender(list)
+    } else {
+        let sortedList
+        switch (type) {
+        case 'duration':
+            sortedList = durationSort(list, ascending)
+            break
+        case 'result':
+            sortedList = genericSort(list, type, ascending, initialOrder)
+            break
+        default:
+            sortedList = genericSort(list, type, ascending)
+            break
+        }
+        manager.setRender(sortedList)
+    }
+}
+
+const doSort = (type, skipDirection) => {
+    const newSortType = storageModule.getSort(manager.initialSort) !== type
+    const currentAsc = storageModule.getSortDirection()
+    let ascending
+    if (skipDirection) {
+        ascending = currentAsc
+    } else {
+        ascending = newSortType ? false : !currentAsc
+    }
+    storageModule.setSort(type)
+    storageModule.setSortDirection(ascending)
+
+    const list = manager.testSubset
+    const sortedList = type === 'duration' ? durationSort(list, ascending) : genericSort(list, type, ascending)
+    manager.setRender(sortedList)
+}
+
+module.exports = {
+    doInitSort,
+    doSort,
+}
+
+},{"./datamanager.js":1,"./storage.js":8}],8:[function(require,module,exports){
+const possibleFilters = [
+    'passed',
+    'skipped',
+    'failed',
+    'error',
+    'xfailed',
+    'xpassed',
+    'rerun',
+]
+
+const getVisible = () => {
+    const url = new URL(window.location.href)
+    const settings = new URLSearchParams(url.search).get('visible')
+    const lower = (item) => {
+        const lowerItem = item.toLowerCase()
+        if (possibleFilters.includes(lowerItem)) {
+            return lowerItem
+        }
+        return null
+    }
+    return settings === null ?
+        possibleFilters :
+        [...new Set(settings?.split(',').map(lower).filter((item) => item))]
+}
+
+const hideCategory = (categoryToHide) => {
+    const url = new URL(window.location.href)
+    const visibleParams = new URLSearchParams(url.search).get('visible')
+    const currentVisible = visibleParams ? visibleParams.split(',') : [...possibleFilters]
+    const settings = [...new Set(currentVisible)].filter((f) => f !== categoryToHide).join(',')
+
+    url.searchParams.set('visible', settings)
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const showCategory = (categoryToShow) => {
+    if (typeof window === 'undefined') {
+        return
+    }
+    const url = new URL(window.location.href)
+    const currentVisible = new URLSearchParams(url.search).get('visible')?.split(',').filter(Boolean) ||
+        [...possibleFilters]
+    const settings = [...new Set([categoryToShow, ...currentVisible])]
+    const noFilter = possibleFilters.length === settings.length || !settings.length
+
+    noFilter ? url.searchParams.delete('visible') : url.searchParams.set('visible', settings.join(','))
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const getSort = (initialSort) => {
+    const url = new URL(window.location.href)
+    let sort = new URLSearchParams(url.search).get('sort')
+    if (!sort) {
+        sort = initialSort || 'result'
+    }
+    return sort
+}
+
+const setSort = (type) => {
+    const url = new URL(window.location.href)
+    url.searchParams.set('sort', type)
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const getCollapsedCategory = (renderCollapsed) => {
+    let categories
+    if (typeof window !== 'undefined') {
+        const url = new URL(window.location.href)
+        const collapsedItems = new URLSearchParams(url.search).get('collapsed')
+        switch (true) {
+        case !renderCollapsed && collapsedItems === null:
+            categories = ['passed']
+            break
+        case collapsedItems?.length === 0 || /^["']{2}$/.test(collapsedItems):
+            categories = []
+            break
+        case /^all$/.test(collapsedItems) || collapsedItems === null && /^all$/.test(renderCollapsed):
+            categories = [...possibleFilters]
+            break
+        default:
+            categories = collapsedItems?.split(',').map((item) => item.toLowerCase()) || renderCollapsed
+            break
+        }
+    } else {
+        categories = []
+    }
+    return categories
+}
+
+const getSortDirection = () => JSON.parse(sessionStorage.getItem('sortAsc')) || false
+const setSortDirection = (ascending) => sessionStorage.setItem('sortAsc', ascending)
+
+const getCollapsedIds = () => JSON.parse(sessionStorage.getItem('collapsedIds')) || []
+const setCollapsedIds = (list) => sessionStorage.setItem('collapsedIds', JSON.stringify(list))
+
+module.exports = {
+    getVisible,
+    hideCategory,
+    showCategory,
+    getCollapsedIds,
+    setCollapsedIds,
+    getSort,
+    setSort,
+    getSortDirection,
+    setSortDirection,
+    getCollapsedCategory,
+    possibleFilters,
+}
+
+},{}]},{},[4]);
+    </script>
+  </footer>
+  </body>
+</html>
