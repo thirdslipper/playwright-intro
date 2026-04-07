@@ -22,3 +22,32 @@ class JSAlertsPage(BasePage):
         logger.info(f"Navigating to page {PAGE_PATH}")
         # wait for the <select> element to be present, then read its options
         self.js_elements.first.wait_for()
+    
+    def handle_alert(self, count: int):
+        """Handles JavaScript alerts by accepting them."""
+        logger.info(f"Clicking button to trigger alert")
+        self.page.once("dialog", lambda dialog: dialog.accept())
+        self.js_elements.get_by_text("Click for JS Alert").click()
+        logger.info("Waiting for alert to appear.")
+
+    def handle_confirm(self, option: bool):
+        """Handles JavaScript confirm dialogs by accepting or dismissing them based on the 'option' parameter."""
+        logger.info(f"Clicking button to trigger confirm dialog with option: {option}")
+        if option:
+            logger.debug(f"Will accept the confirm dialog.")
+            self.page.once("dialog", lambda dialog: dialog.accept())
+        else:
+            logger.debug(f"Will dismiss the confirm dialog.")
+            self.page.once("dialog", lambda dialog: dialog.dismiss())
+        self.js_elements.get_by_text("Click for JS Confirm").click()
+
+    def handle_prompt(self, input_text: str, option: bool):
+        """Handles JavaScript prompt dialogs by entering text and accepting or dismissing them."""
+        logger.info(f"Clicking button to trigger prompt dialog with input: {input_text}")
+        if option:
+            logger.debug(f"Will accept the prompt dialog with dialogue input: {input_text}")
+            self.page.once("dialog", lambda dialog: dialog.accept(input_text))
+        else:
+            logger.debug(f"Will dismiss the prompt dialog with dialogue input: {input_text}")
+            self.page.once("dialog", lambda dialog: dialog.dismiss())
+        self.js_elements.get_by_text("Click for JS Prompt").click()
