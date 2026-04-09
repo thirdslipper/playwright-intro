@@ -1,0 +1,20 @@
+# Environments
+.venv/
+venv/
+ENV/
+
+# Playwright/Pytest Results
+results/
+test-results/
+playwright-report/
+blob-report/
+.coverage
+htmlcov/
+
+# Python junk
+__pycache__/
+*.pyc
+
+# OS junk
+.DS_Store
+results/
