@@ -1,20 +1,26 @@
-# Environments
+# Environments (Local only)
 .venv/
 venv/
 ENV/
 
-# Playwright/Pytest Results
-results/
+# Playwright & Pytest Outputs
+results/*
+!results/.gitkeep
 test-results/
 playwright-report/
 blob-report/
+.pytest_cache/
 .coverage
 htmlcov/
 
-# Python junk
-__pycache__/
+# Python System Files
+**/__pycache__/
 *.pyc
+*.pyo
+*.pyd
 
-# OS junk
+# IDE & OS Junk
+.vscode/
+.idea/
 .DS_Store
-results/
+Thumbs.db
