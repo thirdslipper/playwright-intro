@@ -29,7 +29,8 @@ def pytest_configure(config):
             # os.path.basename handles the path logic correctly for Windows/Mac
             # We strip the extension and use re.sub to remove any non-alphanumeric characters
             raw_target = os.path.basename(config.args[0]).replace(".py", "")
-            report_name = f"auto_{re.sub(r'[^\w\-_]', '_', raw_target)}"
+            sanitized_target = re.sub(r'[^\w\-_]', '_', raw_target)
+            report_name = f"auto_{sanitized_target}"
             
             # target = config.args[0].split("/")[-1].replace(".py", "")
             # report_name = f"auto_{target}"
