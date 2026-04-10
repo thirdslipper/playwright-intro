@@ -19,13 +19,17 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         # If you have a requirements.txt, use: pip install -r requirements.txt
+        
     - name: Install Playwright Browsers
       run: playwright install --with-deps
+
     - name: Run Playwright tests
-      run: pytest --ignore=sandbox/
-    - uses: actions/upload-artifact@v4
+      run: pytest #--ignore=sandbox/
+
+    - name: Upload Test results
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: playwright-report
-        path: playwright-report/
+        path: results/  # Updated to match your conftest.py output
         retention-days: 30
