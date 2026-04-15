@@ -82,7 +82,7 @@ def pytest_runtest_makereport(item, call):
     report.description = str(item.function.__doc__) if item.function.__doc__ else ""
 
     # Screenshot logic for failures
-    extra = getattr(report, "extra", [])
+    extra = getattr(report, "extras", [])
     if report.when == "call" and report.failed:
         # Get the 'page' fixture from the test
         page = item.funcargs.get("page")
@@ -96,7 +96,7 @@ def pytest_runtest_makereport(item, call):
                    'onclick="window.open(this.src)" align="right"/></div>'
             # 4. Inject into the report
             extra.append(pytest_html.extras.html(html))
-        report.extra = extra
+        report.extras = extra
 
 @pytest.hookimpl(hookwrapper=True)
 def pytest_sessionfinish(session, exitstatus):
