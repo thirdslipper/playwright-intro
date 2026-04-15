@@ -25,12 +25,6 @@ class DragdropPage(BasePage):
         # wait for the draggable elements to be present, then read its options
         self.drag_drop_elements.first.wait_for()
 
-    def getState(self, elemnt: str) -> str:
-        """Returns the current header text of the specified element."""
-        header_text = self.drag_drop_elements.get_by_text(elemnt).locator("header").inner_text()
-        logger.info(f"Current state of element '{elemnt}': {header_text}")
-        return header_text
-
     def drag_and_drop(self, source: str, target: str):
         """Drags an element from source to target."""
         logger.info(f"Dragging element from {source} to {target}")

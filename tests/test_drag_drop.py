@@ -5,6 +5,8 @@ from pages.drag_drop_page import DragdropPage
 
 @pytest.mark.parametrize("target", [[("B", "A"), ("A", "B"), ("B", "A")]])
 def test_drag_drop(page: Page, target: list) -> None:
+    """Intent: Test the drag and drop functionality on the page.
+    Test dragging source elements to target element and verify the headers swap accordingly."""
     drag_drop = DragdropPage(page)
     drag_drop.open()
     
