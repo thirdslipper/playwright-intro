@@ -33,3 +33,9 @@ jobs:
         name: playwright-report
         path: results/  # Updated to match your conftest.py output
         retention-days: 30
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: always()  # Ensures report is uploaded even if tests fail
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./results  # This must match your artifact path
