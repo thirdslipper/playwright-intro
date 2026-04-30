@@ -13,9 +13,14 @@ class ShadowdomPage(BasePage):
         #grab all the dropdowns on the page and store them into var dropdowns
         self.shadow_host = page.locator("my-paragraph")
         self.ul_slot = page.get_by_role("list")
+        self.page = page
         logger.info("DropdownPage initialized with shadowdom elements.")
         # self.dropdown_elements = dropdown.get_by_role("option")
         
+
+    def get_header_text(self) -> str:
+        "Returns h1 title header of the page."
+        return self.page.locator("h1").first.inner_text()
 
     def open(self):
         """ Uses the navigate_to method from BasePage"""
@@ -26,11 +31,13 @@ class ShadowdomPage(BasePage):
         self.ul_slot.first.wait_for()
     
     def get_span_slot_text(self) -> str:
-        span_var = self.shadow_host.locator('span[slot="my-text"]').first #.inner_text()
+        """Returns the text of the shadowdom element"""
+        span_var = self.shadow_host.locator('span[slot="my-text"]').first
         logger.debug(f"span_slot text is: {span_var.inner_text()}")
         return span_var.inner_text()
     
     def get_list_text(self) -> list:
+        """Returns a text list of items contained in a list on the website."""
         list_res = []
         list_var = self.ul_slot.get_by_role("listitem")
         for i, item in enumerate(list_var.all()):
